@@ -157,7 +157,7 @@ router.put("/deposit/:user_id", UserLimiter, (req, res, next) => {
           res.json({ status: false, error: e.message });
         }); //admin can update anyone's deposit
     });
-  } else res.json({ status: false, message: "invalid id or empty data" });
+  } else res.json({status: false, message: "invalid id or empty data" });
 });
 
 /**

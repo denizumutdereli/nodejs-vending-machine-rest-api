@@ -516,25 +516,20 @@
 		{
 			"name": "api/products/buy/:product_id",
 			"request": {
-				"method": "POST",
-				"header": [],
+				"method": "PUT",
+				"header": [
+					{
+						"key": "x-access-token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJ1eWVyQHRlc3QuY29tIiwicm9sZSI6ImJ1eWVyIiwiaWF0IjoxNjQyODc2MTI4LCJleHAiOjE2NDI4NzY4NDh9.S9sjuT-ji6usiOWQXFM1rcQV5FQpsjPywjEo77ZMHC4",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "urlencoded",
-					"urlencoded": [
-						{
-							"key": "token",
-							"value": "",
-							"type": "text"
-						},
-						{
-							"key": "quantity",
-							"value": "",
-							"type": "text"
-						}
-					]
+					"urlencoded": []
 				},
 				"url": {
-					"raw": "http://localhost:3000/api/products/buy/:product_id",
+					"raw": "http://localhost:3000/api/products/buy/61ec11c1fb93fc8aeb5331dc",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -544,16 +539,10 @@
 						"api",
 						"products",
 						"buy",
-						":product_id"
-					],
-					"variable": [
-						{
-							"key": "product_id",
-							"value": null
-						}
+						"61ec11c1fb93fc8aeb5331dc"
 					]
 				},
-				"description": "``` javascript\n/**\n * @api {post} /buy/:product_id\n * @apiName Buy Product\n * @apiPermission JWT Token\n * @apiGroup User (seller/buyer)\n *\n * @apiParam  {String} [token] token\n * @apiParam  {Number} [quantity] quantity\n * \n * @rateLimit 1 Hour Window (IP) / Request limit:10 / JWT 12 minutes\n * \n * @apiFixing Checking available amount of the product, user deposit and the exchange \n * @apiNotes Buggy MongoDB transactions \n * \n * @apiSuccess (200) {Object} mixed `Result` object\n * @apiError (200) {Object} {status: false, message: message} //code:0 for I/O wending machine for demo purpose\n **/\n\n```"
+				"description": "``` javascript\n/**\n * @api {put} /buy/:product_id\n * @apiName Buy Product\n * @apiPermission JWT Token\n * @apiGroup User (seller/buyer)\n *\n * @apiParam  {String} [token] token\n * @apiParam  {Number} [quantity] quantity\n * \n * @rateLimit 1 Hour Window (IP) / Request limit:10 / JWT 12 minutes\n * \n * @apiFixing Checking available amount of the product, user deposit and the exchange \n * @apiNotes Buggy MongoDB transactions \n * \n * @apiSuccess (200) {Object} mixed `Result` object\n * @apiError (200) {Object} {status: false, message: message} //code:0 for I/O wending machine for demo purpose\n **/\n\n```"
 			},
 			"response": []
 		},

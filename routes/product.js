@@ -6,7 +6,7 @@ const rateLimit = require("express-rate-limit");
 
 const ProductLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour
-  max: 10, // Limit each IP to 1 create account requests per `window` (here, per hour)
+  max: 50, // Limit each IP to 1 create account requests per `window` (here, per hour)
   message: {
     status: false,
     message:"Too many conections by same IP, please follow-up x-limits and try again after an hour later.",
@@ -23,7 +23,7 @@ const ProductLimiter = rateLimit({
  *
  * @apiParam  {String} [token] token
  * 
- * @rateLimit 1 Hour Window (IP) / Request limit:10 / JWT 12 minutes
+ * @rateLimit 1 Hour Window (IP) / Request limit:50 / JWT 12 minutes
  * 
  * @apiSuccess (200) {Object} mixed `Product` object(s) -> _id, productName, cost, amountAvailable
  * @apiError (200) {Object} {status: false, message: message} //code:0 for I/O wending machine for demo purpose
@@ -54,7 +54,7 @@ router.get(['/', '/all', '/full'], ProductLimiter, (req, res) => {
 		}
 	]);
 
-	promise.then((data) => {res.json(data);	}).catch((err) => {res.json(err);})});
+	promise.then((data) => {res.json({status:true, data:data});	}).catch((err) => {res.json(err);})});
 
 /**
  * @api {post} /products
@@ -70,7 +70,7 @@ router.get(['/', '/all', '/full'], ProductLimiter, (req, res) => {
  * @apiParam  {String} [seller_id] Schema-Object-Relation
  * @apiParam  {String} [username] Simply-bypass mongodb jungle
  * 
- * @rateLimit 1 Hour Window (IP) / Request limit:10 / JWT 12 minutes
+ * @rateLimit 1 Hour Window (IP) / Request limit:50 / JWT 12 minutes
  * 
  * @apiSuccess (200) {Object} mixed `Product` object(s) -> _id, productName, cost, amountAvailable
  * @apiError (200) {Object} {status: false, message: message} //code:0 for I/O wending machine for demo purpose
@@ -118,7 +118,7 @@ router.post('/', ProductLimiter, function (req, res, next) {
  * @apiParam  {String} [token] token
  * @apiParam  {String} [productName] productName
  * 
- * @rateLimit 1 Hour Window (IP) / Request limit:10 / JWT 12 minutes
+ * @rateLimit 1 Hour Window (IP) / Request limit:50 / JWT 12 minutes
  * 
  * @apiSuccess (200) {Object} mixed `Product` object
  * @apiError (200) {Object} {status: false, message: message} //code:0 for I/O wending machine for demo purpose
@@ -151,7 +151,7 @@ router.get('/detail/:product_id', ProductLimiter, (req, res, next) => {
  * @apiParam  {Number} [cost] multiples of 5 from Schema
  * @apiParam  {Number} [amountAvailable] enum [0, 5, 10, 20, 50, 100] from Schema
  * 
- * @rateLimit 1 Hour Window (IP) / Request limit:10 / JWT 12 minutes
+ * @rateLimit 1 Hour Window (IP) / Request limit:50 / JWT 12 minutes
  * 
  * @apiFixing if user_id is different then the authenticated user's id, 
  * return {status:false, message:'You can conly update your own products.'}
@@ -187,7 +187,7 @@ router.put('/update/:product_id', ProductLimiter, (req, res, next) => {
 });
 
 /**
- * @api {post} /buy/:product_id
+ * @api {put} /buy/:product_id
  * @apiName Buy Product
  * @apiPermission JWT Token
  * @apiGroup User (seller/buyer)
@@ -195,7 +195,7 @@ router.put('/update/:product_id', ProductLimiter, (req, res, next) => {
  * @apiParam  {String} [token] token
  * @apiParam  {Number} [quantity] quantity
  * 
- * @rateLimit 1 Hour Window (IP) / Request limit:10 / JWT 12 minutes
+ * @rateLimit 1 Hour Window (IP) / Request limit:50 / JWT 12 minutes
  * 
  * @apiFixing Checking available amount of the product, user deposit and the exchange 
  * @apiNotes Buggy MongoDB transactions 
@@ -204,8 +204,8 @@ router.put('/update/:product_id', ProductLimiter, (req, res, next) => {
  * @apiError (200) {Object} {status: false, message: message} //code:0 for I/O wending machine for demo purpose
  **/
 
-router.post('/buy/:product_id', ProductLimiter, (req, res, next) => {
-
+router.put('/buy/:product_id', ProductLimiter, (req, res, next) => {
+  
   if (req.params.product_id.match(/^[0-9a-fA-F]{24}$/) && req.body.quantity && req.body.quantity.match(/^[0-9]+$/) != null) {
 
   let userid = req.decoded.username;
@@ -263,7 +263,7 @@ router.post('/buy/:product_id', ProductLimiter, (req, res, next) => {
  *
  * @apiParam  {String} [token] token
  * 
- * @rateLimit 1 Hour Window (IP) / Request limit:10 / JWT 12 minutes  (UserLimiter not in charge)
+ * @rateLimit 1 Hour Window (IP) / Request limit:50 / JWT 12 minutes  (UserLimiter not in charge)
  * 
  * @apiFixing if user_id is different then the authenticated user's id, 
  * return {status:false, message:'You can only delete your own products.'}
@@ -303,7 +303,7 @@ router.delete('/delete/:product_id', ProductLimiter, (req, res, next) => {
  *
  * @apiParam  {String} [token] token
  * 
- * @rateLimit 1 Hour Window (IP) / Request limit:10 / JWT 12 minutes  (UserLimiter not in charge)
+ * @rateLimit 1 Hour Window (IP) / Request limit:50 / JWT 12 minutes  (UserLimiter not in charge)
  * 
  * 
  * @apiSuccess (200) {Object} mixed `Product(s)` object
@@ -319,5 +319,6 @@ router.get('/top10', ProductLimiter, (req, res, next) => {
   }).catch( (e)=>{res.json({status:false, error:e.message})} );;
   
 });
+
 
 module.exports = router;
