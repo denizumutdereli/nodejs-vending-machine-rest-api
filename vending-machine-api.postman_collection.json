@@ -1,0 +1,654 @@
+{
+	"info": {
+		"_postman_id": "cacb2e38-d491-4b8c-a8e6-a79462a0c410",
+		"name": "vending-machine-api",
+		"description": "``` javascript\n\n/**\n * @author Deniz Umut dereli\n * @mail denizumutdereli@gmail.com\n * @linkedin denizumutdereli\n * @github denizumutdereli\n * @project Vending Machine Nodejs Rest API\n * @date 22/01/2022\n * @license No Licence\n * \n * This is a demo purpose project.\n * \n **/\n\n```",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						""
+					]
+				},
+				"description": "``` javascript\n/**\n * @api {all} / Default Welcome\n * @apiName Welcome\n * @apiPermission Guests\n * @apiGroup User\n * \n * @rateLimit 1 Windwos (IP) / Request limit:100 - Default Limit app.js\n * \n * @apiSuccess (200) {Object} mixed object\n * @apiError (200) {Object} {status: true, message: message}\n **/\n\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "/user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "role",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"user"
+					]
+				},
+				"description": "``` javascript\n/**\n * @api {post} /user /register Create user\n * @apiName Create new users\n * @apiPermission Registration\n * @apiGroup User\n *\n * @apiParam  {String} [userName] username unique\n * @apiParam  {String} [email] password\n * @apiParam  {String} [role] enum [seller, buyer] from Schema\n * \n * @rateLimit 1 Hour Window (IP) / Request limit:10\n * \n * @apiSuccess (200) {Object} mixed `User` object -> @apiHiddenParam {String} password\n * @apiError (200) {Object} {status: false, message: message}\n **/\n\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "/register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "role",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"user"
+					]
+				},
+				"description": "``` javascript\n/**\n * @api {post} /user /register Create user\n * @apiName Create new users\n * @apiPermission Registration\n * @apiGroup User\n *\n * @apiParam  {String} [userName] username unique\n * @apiParam  {String} [email] password\n * @apiParam  {String} [role] enum [seller, buyer] from Schema\n * \n * @rateLimit 1 Hour Window (IP) / Request limit:10\n * \n * @apiSuccess (200) {Object} mixed `User` object -> @apiHiddenParam {String} password\n * @apiError (200) {Object} {status: false, message: message}\n **/\n\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "/auth",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/auth",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auth"
+					]
+				},
+				"description": "``` javascript\n/**\n * @api {post} /auth Auth user\n * @apiName Auth users\n * @apiPermission JWT / 720 seconds / Active Session - no paralel use\n * @apiGroup User\n *\n * @apiParam  {String} [userName] username\n * @apiParam  {String} [email] password\n * \n * @rateLimit 1 Hour Window (IP) / Request limit:10\n * \n * @apiSuccess (200) {Object} mixed `JWT token` object\n * @apiError (200) {Object} {status: false, message: message}\n **/\n\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "api/user",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/user?token=",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"user"
+					],
+					"query": [
+						{
+							"key": "token",
+							"value": ""
+						}
+					]
+				},
+				"description": "``` javascript\n/**\n * @api {get} /users /users/account /users/profile\n * @apiName Show Profile - if user.role == admin, list all;\n * @apiPermission JWT Token\n * @apiGroup User\n *\n * @apiParam  {String} [token] token\n * @apiHiddenParam {String} password\n * \n * @rateLimit 1 Hour Window (IP) / Request limit:10 / JWT 12 minutes\n * \n * @apiSuccess (200) {Object} mixed `User` object(s) -> user.role == admin, list all\n * @apiError (200) {Object} {status: false, message: message} //code:0 for I/O wending machine for demo purpose\n **/\n\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "api/user/update/user_id",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "deposit",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "can not changed",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/user/update/:user_id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"user",
+						"update",
+						":user_id"
+					],
+					"variable": [
+						{
+							"key": "user_id",
+							"value": null
+						}
+					]
+				},
+				"description": "``` javascript\n/**\n * @api {put} /users/update:user_id\n * @apiName Update user - if user.role == admin, possible to update all;\n * @apiPermission JWT Token\n * @apiGroup User\n *\n * @apiParam  {String} [token] token\n * @apiParam  {String} [password] password - auto hash when update\n * @apiParam  {Number} [deposit] enum [0, 5, 10, 20, 50, 100] from Schema\n * @apiImmutableParam  {String} [role] enum [seller, buyer] from Schema immutable:true/false\n * @apiImmutableParam {String} [username] username from Schema immutable:true/false\n * \n * @rateLimit 1 Hour Window (IP) / Request limit:10 / JWT 12 minutes\n * \n * @apiFixing if user_id is different then the authenticated user's id, \n * ignoring the user_id parameter and continue with user own id.{userid = username from JWTtoken}\n * \n * @apiSuccess (200) {Object} mixed `User` object\n * @apiError (200) {Object} {status: false, message: message} //code:0 for I/O wending machine for demo purpose\n **/\n\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "api/user/deposit/:user_id",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "deposit",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/user/deposit/:user_id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"user",
+						"deposit",
+						":user_id"
+					],
+					"variable": [
+						{
+							"key": "user_id",
+							"value": null
+						}
+					]
+				},
+				"description": "``` javascript\n/**\n * @api {put} /users/deposit:user_id\n * @apiName User Deposits - if user.role == admin, possible to add deposits to all users;\n * @apiPermission JWT Token\n * @apiGroup User\n *\n * @apiParam  {String} [token] token\n * @apiParam  {Number} [deposit] enum [0, 5, 10, 20, 50, 100] from Schema\n * \n * @rateLimit 1 Hour Window (IP) / Request limit:10 / JWT 12 minutes\n * \n * @apiFixing if user_id is different then the authenticated user's id, \n * ignoring the user_id parameter and continue with user own id.{userid = username from JWTtoken}\n * \n * @apiSuccess (200) {Object} mixed `User` object\n * @apiError (200) {Object} {status: false, message: message} //code:0 for I/O wending machine for demo purpose\n **/\n\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "api/user/reset/:user_id",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "deposit",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/user/reset/:user_id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"user",
+						"reset",
+						":user_id"
+					],
+					"variable": [
+						{
+							"key": "user_id",
+							"value": null
+						}
+					]
+				},
+				"description": "``` javascript\n/**\n * @api {put} /users/reset:user_id\n * @apiName User Deposits Reseting - if user.role == admin, possible to reset deposits to all users;\n * @apiPermission JWT Token\n * @apiGroup User\n *\n * @apiParam  {String} [token] token\n * \n * @rateLimit 1 Hour Window (IP) / Request limit:10 / JWT 12 minutes\n * \n * @apiFixing if user_id is different then the authenticated user's id, \n * ignoring the user_id parameter and continue with user own id.{userid = username from JWTtoken}\n * \n * @apiSuccess (200) {Object} mixed `User` object\n * @apiError (200) {Object} {status: false, message: message} //code:0 for I/O wending machine for demo purpose\n **/\n\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "api/user/delete/:user_id",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/user/delete/:user_id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"user",
+						"delete",
+						":user_id"
+					],
+					"variable": [
+						{
+							"key": "user_id",
+							"value": null
+						}
+					]
+				},
+				"description": "``` javascript\n/**\n * @api {delete} /users/delete:user_id\n * @apiName Delete User - if user.role == admin, possible to reset deposits to all users;\n * @apiPermission JWT Token and only user.role == admin\n * @apiGroup Admin\n *\n * @apiParam  {String} [token] token\n * \n * @rateLimit 1 Hour Window (IP) / Request limit:100 / JWT 12 minutes  (UserLimiter not in charge)\n * \n * @apiFixing I let admins to be able to delete their own accounts. Suppose there is a backend.\n * \n * @apiSuccess (200) {Object} {status: true, message: message}\n * @apiError (200) {Object} {status: false, message: message} //code:0 for I/O wending machine for demo purpose\n **/\n\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "api/products/",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/products/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"products",
+						""
+					]
+				},
+				"description": "``` javascript\n/**\n * @api {get} /products /products/all /products/full\n * @apiName Show Products List\n * @apiPermission JWT Token\n * @apiGroup User (all users)\n *\n * @apiParam  {String} [token] token\n * \n * @rateLimit 1 Hour Window (IP) / Request limit:10 / JWT 12 minutes\n * \n * @apiSuccess (200) {Object} mixed `Product` object(s) -> _id, productName, cost, amountAvailable\n * @apiError (200) {Object} {status: false, message: message} //code:0 for I/O wending machine for demo purpose\n **/\n\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "api/products/",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "productName",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "description",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "cost",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "amountAvailable",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/products/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"products",
+						""
+					]
+				},
+				"description": "``` javascript\n/**\n * @api {post} /products\n * @apiName Create Product\n * @apiPermission JWT Token\n * @apiGroup User (sellers)\n *\n * @apiParam  {String} [token] token\n * @apiParam  {String} [productName] productName\n * @apiParam  {String} [description] description\n * @apiParam  {Number} [cost] enum [0, 5, 10, 20, 50, 100] from Schema\n * @apiParam  {Number} [amountAvailable] max:10 from Schema - considered the vending-machine slots.\n * @apiParam  {String} [seller_id] Schema-Object-Relation\n * @apiParam  {String} [username] Simply-bypass mongodb jungle\n * \n * @rateLimit 1 Hour Window (IP) / Request limit:10 / JWT 12 minutes\n * \n * @apiSuccess (200) {Object} mixed `Product` object(s) -> _id, productName, cost, amountAvailable\n * @apiError (200) {Object} {status: false, message: message} //code:0 for I/O wending machine for demo purpose\n **/\n\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "api/products/top10",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/products/top10",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"products",
+						"top10"
+					]
+				},
+				"description": "``` javascript\n/**\n * @api {get} /products/detail/:product_id\n * @apiName Show product - No action\n * @apiPermission JWT Token\n * @apiGroup User (all users)\n *\n * @apiParam  {String} [token] token\n * @apiParam  {String} [productName] productName\n * \n * @rateLimit 1 Hour Window (IP) / Request limit:10 / JWT 12 minutes\n * \n * @apiSuccess (200) {Object} mixed `Product` object\n * @apiError (200) {Object} {status: false, message: message} //code:0 for I/O wending machine for demo purpose\n **/\n\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "api/products/detail/:product_id",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/products/detail/:product_id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"products",
+						"detail",
+						":product_id"
+					],
+					"variable": [
+						{
+							"key": "product_id",
+							"value": null
+						}
+					]
+				},
+				"description": "``` javascript\n/**\n * @api {get} /products/detail/:product_id\n * @apiName Show product - No action\n * @apiPermission JWT Token\n * @apiGroup User (all users)\n *\n * @apiParam  {String} [token] token\n * @apiParam  {String} [productName] productName\n * \n * @rateLimit 1 Hour Window (IP) / Request limit:10 / JWT 12 minutes\n * \n * @apiSuccess (200) {Object} mixed `Product` object\n * @apiError (200) {Object} {status: false, message: message} //code:0 for I/O wending machine for demo purpose\n **/\n\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "api/products/buy/:product_id",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "quantity",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/products/buy/:product_id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"products",
+						"buy",
+						":product_id"
+					],
+					"variable": [
+						{
+							"key": "product_id",
+							"value": null
+						}
+					]
+				},
+				"description": "``` javascript\n/**\n * @api {post} /buy/:product_id\n * @apiName Buy Product\n * @apiPermission JWT Token\n * @apiGroup User (seller/buyer)\n *\n * @apiParam  {String} [token] token\n * @apiParam  {Number} [quantity] quantity\n * \n * @rateLimit 1 Hour Window (IP) / Request limit:10 / JWT 12 minutes\n * \n * @apiFixing Checking available amount of the product, user deposit and the exchange \n * @apiNotes Buggy MongoDB transactions \n * \n * @apiSuccess (200) {Object} mixed `Result` object\n * @apiError (200) {Object} {status: false, message: message} //code:0 for I/O wending machine for demo purpose\n **/\n\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "api/products/update/:product_id",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "cost",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "productName",
+							"value": "",
+							"type": "text"
+						},
+						{
+							"key": "amountAvailable",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/products/update/:product_id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"products",
+						"update",
+						":product_id"
+					],
+					"variable": [
+						{
+							"key": "product_id",
+							"value": null
+						}
+					]
+				},
+				"description": "``` javascript\n/**\n * @api {put} /update/:product_id\n * @apiName Update Product\n * @apiPermission JWT Token\n * @apiGroup User (seller's own products)\n *\n * @apiParam  {String} [token] token\n * @apiParam  {String} [productName] productName unique\n * @apiParam  {String} [description] description\n * @apiParam  {Number} [cost] multiples of 5 from Schema\n * @apiParam  {Number} [amountAvailable] enum [0, 5, 10, 20, 50, 100] from Schema\n * \n * @rateLimit 1 Hour Window (IP) / Request limit:10 / JWT 12 minutes\n * \n * @apiFixing if user_id is different then the authenticated user's id, \n * return {status:false, message:'You can conly update your own products.'}\n * \n * @apiSuccess (200) {Object} mixed `Product` object\n * @apiError (200) {Object} {status: false, message: message} //code:0 for I/O wending machine for demo purpose\n **/\n\n```"
+			},
+			"response": []
+		},
+		{
+			"name": "api/products/delete/:product_id",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/products/delete/:product_id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"products",
+						"delete",
+						":product_id"
+					],
+					"variable": [
+						{
+							"key": "product_id",
+							"value": null
+						}
+					]
+				},
+				"description": "``` javascript\n/**\n * @api {delete} /products/delete:product_id\n * @apiName Delete Products - if user.role == admin, possible to reset deposits to all users;\n * @apiPermission JWT Token and only user.role == admin\n * @apiGroup User (product owners) - Admins are not permited\n *\n * @apiParam  {String} [token] token\n * \n * @rateLimit 1 Hour Window (IP) / Request limit:10 / JWT 12 minutes  (UserLimiter not in charge)\n * \n * @apiFixing if user_id is different then the authenticated user's id, \n * return {status:false, message:'You can only delete your own products.'}\n * \n * @apiSuccess (200) {Object} mixed `Result` object\n * @apiError (200) {Object} {status: false, message: message} //code:0 for I/O wending machine for demo purpose\n **/\n\n```"
+			},
+			"response": []
+		}
+	]
+}

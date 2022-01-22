@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites name="Mocha Tests" time="0.0050" tests="1" failures="0">
+  <testsuite name="Root Suite" timestamp="2022-01-09T00:37:00" tests="0" time="0.0000" failures="0">
+  </testsuite>
+  <testsuite name="Node server" timestamp="2022-01-09T00:37:00" tests="1" file="D:\nodejs\nodejs-rest-api\test\index.test.js" time="0.0030" failures="0">
+    <testcase name="Node server GET / home page" time="0.0010" classname="GET / home page">
+    </testcase>
+  </testsuite>
+</testsuites>
