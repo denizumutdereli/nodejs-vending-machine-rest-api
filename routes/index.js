@@ -85,7 +85,7 @@ router.post("/auth", AccountLimiter, (req, res, next) => {
             const role = user.role;
             const payload = { username, role }; //user-role not secure in jwt but this for demo-purpose and quick development.
             const token = jwt.sign(payload, req.app.get("api_secret_key"), {
-            expiresIn: 7200,
+            expiresIn: 720,
             });
             res.json({ status: true, token });
           }
