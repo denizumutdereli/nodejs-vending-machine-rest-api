@@ -47,7 +47,8 @@ app.use('/api/user', userRouter);
  
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
-  next(createError(404));
+ // next(createError(404));
+ res.status(404).json('Method or function not found!');
 });
 
 // error handler
@@ -58,7 +59,7 @@ app.use((err, req, res, next)=>{
 
   // render the error page
   res.status(err.status || 500);
-  res.json({errror: err.message, code:err.code});
+  res.status(400).json({errror: err.message, code:err.code});
 });
 
 module.exports = app;

@@ -79,13 +79,13 @@ router.post("/auth", AccountLimiter, (req, res, next) => {
         if (err) throw err;
 
         !user ? res.json({ status: false, error: "Auth failed" }) : bcrypt.compare(password, user.password).then((result) => {
-          if (!result) res.json({ status: false, error: "Auth failed" });
+          if (!result) res.status(401).json({ status: false, error: "Auth failed" });
           else {
             //loginSuccess
             const role = user.role;
             const payload = { username, role }; //user-role not secure in jwt but this for demo-purpose and quick development.
             const token = jwt.sign(payload, req.app.get("api_secret_key"), {
-            expiresIn: 720,
+            expiresIn: 7200,
             });
             res.json({ status: true, token });
           }

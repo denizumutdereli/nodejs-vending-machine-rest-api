@@ -5,7 +5,7 @@ module.exports = (req, res, next) => {
     if (token) {
         jwt.verify(token, req.app.get('api_secret_key'), (err, decoded) => {
 
-            if (err) res.json({ status: false, error: 'Auth failed!' });
+            if (err) res.status(401).json({ status: false, error: 'Auth failed!' });
             else {
                 req.decoded = decoded;
                 next();
@@ -13,7 +13,7 @@ module.exports = (req, res, next) => {
         });
 
     } else {
-        res.json({ status: false, error: 'No token provided!' });
+        res.status(401).json({ status: false, error: 'No token provided!' });
     }
 };
 
