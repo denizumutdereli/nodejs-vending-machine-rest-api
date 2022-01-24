@@ -28,7 +28,7 @@ This is a demo purpose Vending Machine Rest Api Project by @denizumutdereli
 
 | Route | HTTP Verb	 | POST body	 | Description	 |
 | --- | --- | --- | --- |
-| / | `ALL` | Empty | Api welcome resonse. |
+| / | `ALL` | Empty | Api welcome response. |
 
 # Registration & Auth (JWT)
 
