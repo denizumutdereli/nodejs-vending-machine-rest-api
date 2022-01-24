@@ -240,44 +240,40 @@ router.put('/buy/:product_id', ProductLimiter, (req, res, next) => {
         else { //All done make sales.. 
 
         //calculation
-        //console.log(exchange)
-              let change = [100,50,20,10,5];
-              let exchange_description;
-              let s= [];
-               
-   
-              let amount = [...change].filter( (x) => x<exchange );
-              let highest = amount.shift()
-   
-              if(highest == 5) s.push(5, exchange/5);
-              else {
-                let c = Math.floor(exchange / highest);
-                s.push([highest, c])
-               let current = exchange - highest * c;                
-                if(current % 10 !== 0) {
-                  s.push([5,1]);
-                  current -=5;
-                }
-                for(let i = 0; i< amount.length; i++) {
-                  let d = Math.floor(current/amount[i])
-  
-                  if(d > 1) {
-                    //console.log(amount[i])
-                    s.push([amount[i],d]);
-                    current = current - amount[i]*d;
-                  }
+        let change = [100, 50, 20, 10, 5];
+          let exchange_safe= exchange;
+          let exchange_description;
+          let s = [];
+
+          if (exchange % 10 !== 0 || exchange === 5) {
+            s.push([5, 1]);
+            exchange = exchange - 5;
+          }
+
+          if (exchange !== 0) {
+            let amount = [...change].filter((x) => x <= exchange).sort((x, y) => y - x);
+            let highest = amount.shift();
+            let c = Math.floor(exchange / highest);
+            s.push([highest, c]);
+            let current = exchange - highest * c;
+            if (current !== 0) {
+              for (let i = 0; i < amount.length; i++) {
+                let d = Math.floor(current / amount[i]);
+                if (d >= 1) {
+                  s.push([amount[i], d]);
+                  current = current - amount[i] * d;
                 }
               }
- 
-            exchange_description = s.sort( (a,b) => a-b );
-              
-                 
+            }
+          }
 
+          exchange_description = s.sort((a, b) => b[0] - a[0]);
+              
         const sales = Product.findByIdAndUpdate( req.params.product_id,  { $inc: { amountAvailable: -quantity, sales: 1 } }, {new:true, runValidators: true})
         .then((data) => {  if(!data) next({ message: 'Product can not be updated', code: 0 })
         else {
           const balance = User.findByIdAndUpdate(user.id,  { $inc: { deposit: -gross, sales: 1 }}).then( (data)=> 
-          !data ? next({status:false, message:'User balance can not be updated!'}) : res.json({status:true, message:'Thank you visit again.', exchange:exchange, exchange_description:exchange_description})
+          !data ? next({status:false, message:'User balance can not be updated!'}) : res.json({status:true, message:'Thank you visit again.', exchange:exchange_safe, exchange_description:exchange_description})
           ).catch( (e)=>{res.json({status:false, error:e.message})} );  } }).catch( (e)=>{res.json({status:false, error:e.message})} );
         }
           
