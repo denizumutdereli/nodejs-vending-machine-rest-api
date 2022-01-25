@@ -69,7 +69,7 @@ router.post(['/user', '/register'], AccountLimiter, (req, res, next) => {
  * @rateLimit 1 Hour Window (IP) / Request limit:10
  * 
  * @apiSuccess (200) {Object} mixed `JWT token` object
- * @apiError (200) {Object} {status: false, message: message}
+ * @apiError (401) {Object} {status: false, message: message}
  **/
 
 router.post("/auth", AccountLimiter, (req, res, next) => {
@@ -102,7 +102,7 @@ router.post("/auth", AccountLimiter, (req, res, next) => {
  * @rateLimit 1 Windwos (IP) / Request limit:100 - Default Limit app.js
  * 
  * @apiSuccess (200) {Object} mixed object
- * @apiError (200) {Object} {status: true, message: message}
+ * @apiError (404) {Object} {status: true, message: message}
  **/
 
 router.all("/", (req, res, next) => {
