@@ -7,7 +7,7 @@ const User = require("../models/User");
 
 const AccountLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour
-  max: 10, // Limit each IP to 1 create account requests per `window` (here, per hour)
+  max: 100, // Limit each IP to 1 create account requests per `window` (here, per hour)
   message: {
     status: false,
     message:"Too many conections by same IP, please follow-up x-limits and try again after an hour later.",

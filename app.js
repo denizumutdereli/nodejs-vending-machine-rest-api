@@ -4,7 +4,10 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const rateLimit = require('express-rate-limit')
- 
+var cors = require('cors');
+
+
+
 // config
 const config = require('./config');
 
@@ -38,7 +41,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(cors()); 
 
 app.use('/', indexRouter);
 app.use('/api', verifyToken);
