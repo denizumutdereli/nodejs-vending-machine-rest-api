@@ -7,8 +7,10 @@ const mongoOptions = {
     //useFindAndModify: false, 
   }
 
+const mongodb_crendentials = process.env.mongodb_crendentials
+
 module.exports = () => {
-    mongoose.connect('mongodb+srv://test_user:4WsDtsmlMrk8525K@mcluster.yuskm.mongodb.net/vending_machine?retryWrites=true&w=majority', mongoOptions)
+    mongoose.connect('mongodb+srv://'+mongodb_crendentials+'@mcluster.yuskm.mongodb.net/vending_machine?retryWrites=true&w=majority', mongoOptions)
 
     mongoose.connection.on('open', ()=> {
 

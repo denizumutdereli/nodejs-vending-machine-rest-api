@@ -1,12 +1,13 @@
 const createError = require('http-errors');
+const compression = require('compression');
 const express = require('express');
+const helmet = require('helmet');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const env = require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` })
 const rateLimit = require('express-rate-limit')
 var cors = require('cors');
-
-
 
 // config
 const config = require('./config');
@@ -40,6 +41,9 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(compression()); //Compress all routes
+app.use(helmet());
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cors()); 
 

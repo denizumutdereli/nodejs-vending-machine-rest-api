@@ -3,9 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
-    "start:dev": "nodemon ./bin/www",
-    "test": "mocha --recursive --timeout 60000 --exit"
+    "start": "SET NODE_ENV=dev& nodemon ./bin/www",
+    "start:dev": "SET NODE_ENV=dev& nodemon ./bin/www",
+    "start:pro": "SET NODE_ENV=production& nodemon ./bin/www",
+    "test": "SET NODE_ENV=production& mocha --recursive --timeout 60000 --exit"
   },
   "dependencies": {
     "bcrpyt": "^2.0.0",
@@ -13,12 +14,15 @@
     "bcryptjs": "^2.4.3",
     "chai": "^4.3.4",
     "chai-http": "^4.3.0",
+    "compression": "^1.7.4",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
     "debug": "^4.3.3",
+    "dotenv": "^14.3.2",
     "express": "~4.16.1",
     "express-rate-limit": "^6.1.0",
     "express-validator": "^6.14.0",
+    "helmet": "^5.0.2",
     "http-errors": "~1.6.3",
     "jade": "^0.29.0",
     "jsonwebtoken": "^8.5.1",
@@ -26,5 +30,8 @@
     "mongoose": "^6.1.5",
     "morgan": "~1.9.1",
     "unique-username-generator": "^1.0.1"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
   }
 }
