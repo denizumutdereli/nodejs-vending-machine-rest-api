@@ -75,7 +75,7 @@ router.post(['/user', '/register'], AccountLimiter, (req, res, next) => {
 router.post("/auth", AccountLimiter, (req, res, next) => {
     const { username, password } = req.body;
 
-    !username || !password ? res.json({ status: false, error: "username and password are required!" }) : User.findOne({ username }, (err, user) => {
+    !username || !password ? res.json({ status: false, error: "username and password are required!"}) : User.findOne({ username }, (err, user) => {
         if (err) throw err;
 
         !user ? res.json({ status: false, error: "Auth failed" }) : bcrypt.compare(password, user.password).then((result) => {
