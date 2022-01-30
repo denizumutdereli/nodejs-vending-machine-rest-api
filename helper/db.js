@@ -7,7 +7,7 @@ const mongoOptions = {
     //useFindAndModify: false, 
   }
 
-const {mongodb_crendentials, mongodb_database} = process.env.mongodb_crendentials
+const {mongodb_crendentials, mongodb_database} = process.env
 
 module.exports = () => {
     mongoose.connect('mongodb+srv://'+mongodb_crendentials+'@mcluster.yuskm.mongodb.net/'+mongodb_database+'?retryWrites=true&w=majority', mongoOptions)
