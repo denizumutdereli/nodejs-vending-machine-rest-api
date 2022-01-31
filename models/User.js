@@ -8,6 +8,7 @@ const validateDeposit = (e) => {
 };
 
 const UserSchema = new Schema({
+  //_id: mongoose.SchemaTypes.ObjectId,
   username: {
     type: String,
     required: true,
@@ -32,7 +33,7 @@ const UserSchema = new Schema({
   },
   role: {
     type: String,
-    enum: ["buyer", "seller"],
+    enum: ["admin","buyer", "seller"], //admin logic should be control by external class
     message: "{VALUE} is not supported. Try {buyer/seller}",
     required: [true, " {PATH} is required. You can set {buyer/seller}"],
     lowercase: true,

@@ -3,10 +3,11 @@ const User = require("../models/User");
 const router = express.Router();
 const bcrypt = require("bcrypt");
 const rateLimit = require("express-rate-limit");
+const mongoose = require('mongoose');
 
 const UserLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour
-  max: 10, // Limit each IP to 1 create account requests per `window` (here, per hour)
+  max: 1000, // Limit each IP to 1 create account requests per `window` (here, per hour)
   message: {
     status: false,
     message:"Too many conections by same IP, please follow-up x-limits and try again after an hour later.",
@@ -16,27 +17,62 @@ const UserLimiter = rateLimit({
 });
 
 /**
+ * @api {get} /roles
+ * @apiName Show Profile - if user.role == admin, list all;
+ * @apiPermission JWT Token
+ * @apiGroup User !Admin
+ *
+ * @apiParam  {String} [token] token
+ * 
+ * @rateLimit 1 Hour Window (IP) / Request limit:10 / JWT 12 minutes
+ * 
+ * @apiSuccess (200) {Object} mixed `Roles` Array -> only admin, list all
+ * @apiError (200) {Object} {status: false, message: message} //code:0 for I/O wending machine for demo purpose
+ **/
+ 
+  router.get("/roles", UserLimiter, (req, res, next) => {
+  let userRole = req.decoded.role;
+   
+  (userRole) != 'admin' ? res.status(401).json({status:false, error:'You are not permited to that!'}) : true;
+
+  const roles = {
+    0: 'admin',
+    1: 'seller',
+    2: 'buyer'
+  }
+
+  res.json({ status: true, data: roles });
+
+});
+
+/**
  * @api {get} /users /users/account /users/profile
  * @apiName Show Profile - if user.role == admin, list all;
  * @apiPermission JWT Token
  * @apiGroup User
  *
- * @apiParam  {String} [token] token
+ * @apiParam  {String} [token] token | conditional /detail/:user_id  Admin can call anyone, users can call only own profiles.
  * @apiHiddenParam {String} password
  * 
  * @rateLimit 1 Hour Window (IP) / Request limit:10 / JWT 12 minutes
  * 
- * @apiSuccess (200) {Object} mixed `User` object(s) -> user.role == admin, list all
+ * @apiSuccess (200) {Object} mixed `User` object(s) 
  * @apiError (200) {Object} {status: false, message: message} //code:0 for I/O wending machine for demo purpose
  **/
 
-router.get(["/", "/account", "/profile"], UserLimiter, (req, res, next) => {
-  let userid = req.decoded.username; //default parameters from JWT token. partial-stateless for demo purpose.
+router.get(["/", "/account/", "/profile/", "/detail/:user_id"], UserLimiter, (req, res, next) => {
+   
+  let username = req.decoded.username; //default parameters from JWT token. partial-stateless for demo purpose.
   let userRole = req.decoded.role;
-  let param = { username: userid };
-
-  userRole == "admin" ? (param = {}) : null; //admin can list all users
-  const promise = User.find(param, { password: 0 }).sort({ type: -1 });
+  let params = {};
+   if(req.params.user_id) 
+      { if(userRole === 'admin') {params = {_id :  new mongoose.Types.ObjectId(req.params.user_id)};} else { params = {username : username} } }
+   else userRole == "admin" ? params = {} : params = { username: username };
+  
+  const promise =   User.aggregate([
+    {$match:params},
+    {$project:{_id: 0, id: '$_id', username:1, role:1, deposit:1, }}
+  ]);
 
   promise
     .then((data) => {
@@ -226,12 +262,12 @@ router.delete("/delete/:user_id", (req, res, next) => {
     if (userRole != "admin")
       next({ status: false, message: "You are not allowed to this action" });
     else {
-      const promise = User.findOneAndRemove(req.params.user_id); //Iam letting admins to delete their own accounts :)
+      const promise = User.findByIdAndDelete(req.params.user_id); //Iam letting admins to delete their own accounts :)
       promise
         .then((data) => {
           !data
             ? next({ message: "Not found!", code: 0 })
-            : res.json({ status: true, message: "User deleted!" });
+            : res.json({ status: true, message: "User deleted!", u:req.params});
         })
         .catch((e) => {
           res.json({ status: false, error: e.message });

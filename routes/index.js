@@ -7,7 +7,7 @@ const User = require("../models/User");
 
 const AccountLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour
-  max: 100, // Limit each IP to 1 create account requests per `window` (here, per hour)
+  max: 1000, // Limit each IP to 1 create account requests per `window` (here, per hour)
   message: {
     status: false,
     message:"Too many conections by same IP, please follow-up x-limits and try again after an hour later.",
@@ -52,7 +52,9 @@ router.post(['/user', '/register'], AccountLimiter, (req, res, next) => {
             res.json({ status: true, data: data });
           })
           .catch((e) => {
-            res.json({ status: false, error: e.message });
+            //res.json({ status: false, error: e.message });
+            //Add here custom error messages with switch.
+            res.json({status:false, error: 'Registration failed', e:e })
           });
       });
 });
@@ -85,7 +87,7 @@ router.post("/auth", AccountLimiter, (req, res, next) => {
             const role = user.role;
             const payload = { username, role }; //user-role not secure in jwt but this for demo-purpose and quick development.
             const token = jwt.sign(payload, req.app.get("api_secret_key"), {
-            expiresIn: 720,
+            expiresIn: 6000,//dont forget to change!!
             });
             res.json({ status: true, token });
           }
